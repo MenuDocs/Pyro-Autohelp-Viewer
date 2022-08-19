@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.http import HttpRequest
 from django.urls import reverse
 
 from api.schemas import PartialCaseSchema
@@ -13,11 +14,17 @@ class Case(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_edited_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def slug_as_url_safe(self) -> str:
+        return str(self.slug)
+
     def __str__(self):
         return f"Case(slug='{self.slug}', created_for={self.created_for})"
 
-    def as_partial_schema(self) -> PartialCaseSchema:
+    def as_partial_schema(self, request: HttpRequest) -> PartialCaseSchema:
         return PartialCaseSchema(
-            slug=self.slug,
-            view_url=reverse("base-view_case", kwargs={"slug": self.slug}),
+            slug=self.slug_as_url_safe,
+            view_url=request.build_absolute_uri(
+                reverse("base-view_case", kwargs={"slug": self.slug_as_url_safe})
+            ),
         )

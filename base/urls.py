@@ -4,5 +4,5 @@ from base.views import index_view, case_view
 
 urlpatterns = [
     path("", index_view),
-    path("cases/<slug:str>", case_view, name="base-view_case"),
+    path("cases/<str:slug>", case_view, name="base-view_case"),
 ]

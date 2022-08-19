@@ -89,4 +89,4 @@ def create_case(request: HttpRequest, entry: CaseInSchema):
 
     CodeError.objects.bulk_create(errors)
 
-    return 201, case.as_partial_schema()
+    return 201, case.as_partial_schema(request)

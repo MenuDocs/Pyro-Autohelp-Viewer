@@ -12,5 +12,8 @@ class ApiKey(APIKeyHeader):
         if settings.DEBUG and not required_key:
             required_key = "test_key"
 
+        elif not settings.DEBUG and not required_key:
+            return False
+
         if key == required_key:
             return key
