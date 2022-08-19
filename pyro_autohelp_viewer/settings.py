@@ -19,7 +19,9 @@ if DEBUG:
     ALLOWED_HOSTS = ["*"]
 
 ROOT_URLCONF = "pyro_autohelp_viewer.urls"
-SECRET_KEY = "django-insecure-sbplyrc(9o$r#^*gftuyghddi=57f)2j1=pedjn+!!233dwad78g54&^djzx7!lt$"
+SECRET_KEY = (
+    "django-insecure-sbplyrc(9o$r#^*gftuyghddi=57f)2j1=pedjn+!!233dwad78g54&^djzx7!lt$"
+)
 if not DEBUG:
     SECRET_KEY = os.environ["SECRET_KEY"]
 
@@ -125,3 +127,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+NINJA_DOCS_VIEW = "redoc"

@@ -1,3 +1,3 @@
 from .discord_user import DiscordUser
-from .entry import Entry
+from .case import Case
 from .code_error import CodeError
