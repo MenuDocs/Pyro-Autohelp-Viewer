@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Discord metadata -->
+    <meta property="og:title" content="Pyro Autohelp Viewer">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pyro.koldfusion.xyz/">
+    <meta property="og:description" content="{% block meta_description %}{% endblock %}">
+    <meta property="theme-color" content="#8338EC">
+
+</head>
+<body>
+{% block content %}{% endblock %}
+</body>
+</html>
