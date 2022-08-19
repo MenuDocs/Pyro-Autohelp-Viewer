@@ -53,8 +53,8 @@ def handle_400(request, exc):
 
 @API.post(
     "cases",
-    summary="Create a new case.html",
-    description="Creates a new case.html which can be viewed by the end user.",
+    summary="Create a new case",
+    description="Creates a new case which can be viewed by the end user.",
     tags=["Cases"],
     response={201: PartialCaseSchema, 401: Message, 422: PydanticValidationMessage},
 )
