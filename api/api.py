@@ -6,7 +6,12 @@ from ninja.parser import Parser
 from ninja.renderers import BaseRenderer
 
 from api.auth import ApiKey
-from api.schemas import CaseInSchema, PartialCaseSchema, Message
+from api.schemas import (
+    CaseInSchema,
+    PartialCaseSchema,
+    Message,
+    PydanticValidationMessage,
+)
 from base.models import DiscordUser, CodeError, Case
 
 
@@ -51,7 +56,7 @@ def handle_400(request, exc):
     summary="Create a new case",
     description="Creates a new case which can be viewed by the end user.",
     tags=["Cases"],
-    response={201: PartialCaseSchema, 401: Message},
+    response={201: PartialCaseSchema, 401: Message, 422: PydanticValidationMessage},
 )
 def create_case(request: HttpRequest, entry: CaseInSchema):
     discord_user, created = DiscordUser.objects.get_or_create(
