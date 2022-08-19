@@ -15,11 +15,25 @@ class Case(models.Model):
     last_edited_at = models.DateTimeField(auto_now=True)
 
     @property
+    def creator_name(self) -> str:
+        """Saves us showing 'None' on the UI"""
+        return (
+            self.created_for.last_known_name
+            if self.created_for.last_known_name
+            else "Unknown User"
+        )
+
+    @property
     def slug_as_url_safe(self) -> str:
         return str(self.slug)
 
     def __str__(self):
-        return f"Case(slug='{self.slug}', created_for={self.created_for})"
+        creator_name = (
+            f"'{self.created_for.last_known_name}'"
+            if self.created_for.last_known_name
+            else None
+        )
+        return f"Case(slug='{self.slug}', created_for={creator_name})"
 
     def as_partial_schema(self, request: HttpRequest) -> PartialCaseSchema:
         return PartialCaseSchema(

@@ -24,5 +24,5 @@ class CaseOutSchema(CaseInSchema):
 class PartialCaseSchema(Schema):
     slug: str = Field(..., description="The URL slug for this entry.")
     view_url: HttpUrl = Field(
-        ..., description="The URL for the end user to view this case."
+        ..., description="The URL for the end user to view this case.html."
     )
