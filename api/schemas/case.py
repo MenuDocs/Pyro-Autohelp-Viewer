@@ -11,18 +11,18 @@ class CaseInSchema(Schema):
     created_for: DiscordUserSchema
 
 
-class CaseOutSchema(CaseInSchema):
+class PartialCaseSchema(Schema):
+    slug: str = Field(..., description="The URL slug for this entry.")
+    view_url: HttpUrl = Field(
+        ..., description="The URL for the end user to view this case.html."
+    )
+
+
+class CaseOutSchema(CaseInSchema, PartialCaseSchema):
     slug: str = Field(..., description="The URL slug for this entry.")
     created_at: datetime.datetime = Field(
         ..., description="When this entry was created."
     )
     last_edited_at: datetime.datetime = Field(
         ..., description="When this entry was last edited."
-    )
-
-
-class PartialCaseSchema(Schema):
-    slug: str = Field(..., description="The URL slug for this entry.")
-    view_url: HttpUrl = Field(
-        ..., description="The URL for the end user to view this case.html."
     )
