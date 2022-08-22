@@ -21,7 +21,9 @@ def render_template(
     context["nav_links"] = nav_links
     context["current_nav_link"] = current_nav_link
 
-    if request.user.is_staff:
+    if request.user.is_staff and len(context["nav_links"]) == 3:
         context["nav_links"].append({"name": "Admin", "url": "/admin"})
+    elif not request.user.is_staff and len(context["nav_links"]) == 4:
+        context["nav_links"].pop()
 
     return render(request, file_path, context=context)
