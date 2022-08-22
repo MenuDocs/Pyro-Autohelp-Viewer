@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "base",
+    "api",
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,6 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 NINJA_DOCS_VIEW = "redoc"
+
+if not DEBUG and not os.environ.get("API_KEY"):
+    raise ValueError("API_KEY is a required enviroment variable in production.")

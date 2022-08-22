@@ -1,0 +1,44 @@
+version: "2.2"
+
+services:
+  pyro_autohelp_db:
+    image: postgres:12.9
+    container_name: "pyro_autohelp_db"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ...
+      POSTGRES_USER: ...
+      POSTGRES_PASSWORD: ...
+    volumes:
+      - .db:/var/lib/postgresql/data
+    networks:
+      - ...
+  pyro_autohelp_web:
+    image: docker.pkg.github.com/menudocs/pyro-autohelp-viewer/pyro-autohelp-viewer
+    container_name: "pyro_autohelp_web"
+    restart: always
+    networks:
+      - ...
+    depends_on:
+      - pyro_autohelp_db
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.pyro_auto_help.rule: "Host(`pyro.koldfusion.xyz`)"
+      traefik.http.routers.pyro_auto_help.entrypoint: "websecure"
+      traefik.http.routers.pyro_auto_help.tls.certresolver: "leresolver"
+      traefik.http.routers.pyro_auto_help.loadbalancer.server.port: "8000"
+    cpu_count: 3
+    mem_limit: 2g
+    mem_reservation: 512m
+    environment:
+      SECRET_KEY: ...
+      SERVING_DOMAIN: "pyro.koldfusion.xyz"
+      POSTGRES_NAME: "pyro_autohelp_db"
+      POSTGRES_DB: ...
+      POSTGRES_USER: ...
+      POSTGRES_PASSWORD: ...
+      FORCE_POSTGRES: 1
+      API_KEY: ...
