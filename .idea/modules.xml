@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/pyro_autohelp_viewer.iml" filepath="$PROJECT_DIR$/.idea/pyro_autohelp_viewer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pyro.koldfusion.xyz.iml" filepath="$PROJECT_DIR$/.idea/pyro.koldfusion.xyz.iml" />
     </modules>
   </component>
 </project>

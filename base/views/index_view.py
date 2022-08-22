@@ -1,6 +1,7 @@
 from django.http import HttpRequest
-from django.shortcuts import render
+
+from base.util import render_template
 
 
 def index_view(request: HttpRequest):
-    return render(request, "base/index.html")
+    return render_template(request, "base/index.html", current_nav_link="Home")
