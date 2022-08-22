@@ -19,8 +19,8 @@ class CaseAdmin(admin.ModelAdmin):
 
 @admin.register(CodeError)
 class CodeErrorAdmin(admin.ModelAdmin):
-    list_display = ("case", "message", "old_code_link", "fixed_code_link")
-    search_fields = ("case__slug", "message")
+    list_display = ("case", "title", "description", "old_code_link", "fixed_code_link")
+    search_fields = ("case__slug", "title", "description")
 
 
 @admin.register(DiscordUser)

@@ -1,9 +1,36 @@
 {% extends 'base.html' %}
 {% block title %}Pyro Auto-help viewer{% endblock %}
 {% block meta_description %}Automated help for {{ case.creator_name }}{% endblock %}
+{% block header %}Case {{ case.slug }}{% endblock %}
 {% block content %}
-    <h1>A simplistic take on automated assistance.</h1>
-    <hr>
+    <p class="text-xl font-light">
+        Created for {{ case.creator_name }} at {{ case.created_at|date:"h:i A jS F Y" }} UTC.
+    </p>
+    <hr><br>
 
-    {{ case.creator_name }}
+
+
+    <ul class="space-y-5">
+        {% for error in case.errors.all %}
+            <li class="list-disc">
+                <p>{{ error.title }}</p>
+                <details class="bg-gray-300 open:bg-amber-200">
+                    <summary class="bg-inherit px-5 py-3 text-lg cursor-pointer">View information</summary>
+                    <div class="bg-white px-5 py-3 border border-gray-300 text-sm font-light">
+                        <br>
+                        <p>
+                            {{ error.description }}
+                        </p>
+                        <br><hr><br>
+                        <p class="text-base">This is your original code.</p>
+                        <iframe height="300vh" width="100%" src="{{ error.old_code_link }}"></iframe>
+                        <br>
+                        <p class="text-base">This is the fixed code.</p>
+                        <iframe height="300vh" width="100%" src="{{ error.fixed_code_link }}"></iframe>
+                    </div>
+                </details>
+            </li>
+        {% endfor %}
+
+    </ul>
 {% endblock %}
