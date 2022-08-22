@@ -26,7 +26,7 @@ services:
       traefik.http.routers.pyro_auto_help.entrypoint: "websecure"
       traefik.http.routers.pyro_auto_help.tls.certresolver: "leresolver"
       traefik.http.routers.pyro_auto_help.loadbalancer.server.port: "8000"
-    cpu_count: 3
+    cpus: 3
     mem_limit: 2g
     mem_reservation: 512m
     environment:
