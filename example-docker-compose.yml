@@ -20,12 +20,14 @@ services:
     restart: always
     depends_on:
       - pyro_autohelp_db
+    ports:
+      - "8000:8000"
     labels:
       traefik.enable: "true"
       traefik.http.routers.pyro_auto_help.rule: "Host(`pyro.koldfusion.xyz`)"
-      traefik.http.routers.pyro_auto_help.entrypoint: "websecure"
+      traefik.http.routers.pyro_auto_help.entrypoints: "websecure"
       traefik.http.routers.pyro_auto_help.tls.certresolver: "leresolver"
-      traefik.http.routers.pyro_auto_help.loadbalancer.server.port: "8000"
+      traefik.http.services.pyro_auto_help.loadbalancer.server.port: "8000"
     cpus: 3
     mem_limit: 2g
     mem_reservation: 512m
@@ -33,7 +35,7 @@ services:
       SECRET_KEY: ...
       SERVING_DOMAIN: "pyro.koldfusion.xyz"
       POSTGRES_NAME: "pyro_autohelp_db"
-      POSTGRES_DB: ...
+      POSTGRES_HOST: ...
       POSTGRES_USER: ...
       POSTGRES_PASSWORD: ...
       FORCE_POSTGRES: 1
