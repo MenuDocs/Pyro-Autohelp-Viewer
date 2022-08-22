@@ -4,7 +4,12 @@ from django.db import models
 from django.http import HttpRequest
 from django.urls import reverse
 
-from api.schemas import PartialCaseSchema
+from api.schemas import (
+    PartialCaseSchema,
+    CaseOutSchema,
+    DiscordUserSchema,
+    CodeErrorInSchema,
+)
 from base.models import DiscordUser
 
 
@@ -39,4 +44,27 @@ class Case(models.Model):
             view_url=request.build_absolute_uri(
                 reverse("base-view_case", kwargs={"slug": self.slug_as_url_safe})
             ),
+        )
+
+    def as_schema(self, request: HttpRequest) -> CaseOutSchema:
+        return CaseOutSchema(
+            slug=self.slug_as_url_safe,
+            view_url=request.build_absolute_uri(
+                reverse("base-view_case", kwargs={"slug": self.slug_as_url_safe})
+            ),
+            created_for=DiscordUserSchema(
+                user_id=self.created_for.user_id,
+                last_known_name=self.created_for.last_known_name,
+            ),
+            created_at=self.created_at,
+            last_edited_at=self.last_edited_at,
+            errors=[
+                CodeErrorInSchema(
+                    title=e.title,
+                    description=e.description,
+                    old_code_link=e.old_code_link,
+                    fixed_code_link=e.fixed_code_link,
+                )
+                for e in self.errors.all()
+            ],
         )

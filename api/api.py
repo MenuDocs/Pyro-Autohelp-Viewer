@@ -1,5 +1,5 @@
 import orjson
-from django.core.exceptions import PermissionDenied, BadRequest
+from django.core.exceptions import PermissionDenied, BadRequest, ValidationError
 from django.http import Http404, HttpRequest
 from ninja import NinjaAPI
 from ninja.parser import Parser
@@ -11,6 +11,7 @@ from api.schemas import (
     PartialCaseSchema,
     Message,
     PydanticValidationMessage,
+    CaseOutSchema,
 )
 from base.models import DiscordUser, CodeError, Case
 
@@ -91,3 +92,48 @@ def create_case(request: HttpRequest, entry: CaseInSchema):
     CodeError.objects.bulk_create(errors)
 
     return 201, case.as_partial_schema(request)
+
+
+@API.get(
+    "cases/{slug}",
+    summary="Fetch an entire case",
+    description="Fetches and returns a stored case.",
+    tags=["Cases"],
+    response={
+        200: CaseOutSchema,
+        401: Message,
+        422: PydanticValidationMessage,
+        404: Message,
+    },
+    auth=None,
+)
+def fetch_case(request: HttpRequest, slug: str):
+    try:
+        case: Case = Case.objects.get(slug=slug)
+    except (ValidationError, Case.DoesNotExist):
+        raise Http404(f"Cannot find a case for slug '{slug}'")
+
+    return case.as_schema(request)
+
+
+@API.get(
+    "cases/{slug}/partial",
+    summary="Partially fetch a case",
+    description="Fetches the view url for the given case. "
+    "Use this over raw formatting for if the route changes internally.",
+    tags=["Cases"],
+    response={
+        200: PartialCaseSchema,
+        401: Message,
+        422: PydanticValidationMessage,
+        404: Message,
+    },
+    auth=None,
+)
+def fetch_partial_case(request: HttpRequest, slug: str):
+    try:
+        case: Case = Case.objects.get(slug=slug)
+    except (ValidationError, Case.DoesNotExist):
+        raise Http404(f"Cannot find a case for slug '{slug}'")
+
+    return 200, case.as_partial_schema(request)
