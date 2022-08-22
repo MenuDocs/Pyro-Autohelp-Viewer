@@ -21,4 +21,7 @@ def render_template(
     context["nav_links"] = nav_links
     context["current_nav_link"] = current_nav_link
 
+    if request.user.is_staff:
+        context["nav_links"].append({"name": "Admin", "url": "/admin"})
+
     return render(request, file_path, context=context)

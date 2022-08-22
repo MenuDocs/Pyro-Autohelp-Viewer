@@ -27,13 +27,11 @@ class Case(models.Model):
     def slug_as_url_safe(self) -> str:
         return str(self.slug)
 
+    def __repr__(self):
+        return f"Case(slug='{self.slug}', created_for={self.created_for})"
+
     def __str__(self):
-        creator_name = (
-            f"'{self.created_for.last_known_name}'"
-            if self.created_for.last_known_name
-            else None
-        )
-        return f"Case(slug='{self.slug}', created_for={creator_name})"
+        return f"Case '{self.slug}'"
 
     def as_partial_schema(self, request: HttpRequest) -> PartialCaseSchema:
         return PartialCaseSchema(
