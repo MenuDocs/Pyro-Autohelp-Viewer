@@ -8,8 +8,6 @@
     </p>
     <hr><br>
 
-
-
     <ul class="space-y-5">
         {% for error in case.errors.all %}
             <li class="list-disc">
@@ -19,7 +17,7 @@
                     <div class="bg-white px-5 py-3 border border-gray-300 text-sm font-light">
                         <br>
                         <p>
-                            {{ error.description }}
+                            {{ error.description|linebreaksbr }}
                         </p>
                         <br><hr><br>
                         <p class="text-base">This is your original code.</p>
