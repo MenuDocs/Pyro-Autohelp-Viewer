@@ -30,7 +30,7 @@ class ORJSONRenderer(BaseRenderer):
 
 API = NinjaAPI(
     title="Pyro Automated help API",
-    version="0.0.1",
+    version="1.0.0",
     parser=ORJSONParser(),
     renderer=ORJSONRenderer(),
     auth=ApiKey(),
