@@ -81,7 +81,8 @@ def create_case(request: HttpRequest, entry: CaseInSchema):
         errors.append(
             CodeError(
                 case=case,
-                message=error.message,
+                title=error.title,
+                description=error.description,
                 old_code_link=error.old_code_link,
                 fixed_code_link=error.fixed_code_link,
             )

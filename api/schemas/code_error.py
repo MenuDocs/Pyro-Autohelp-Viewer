@@ -3,7 +3,10 @@ from pydantic import HttpUrl
 
 
 class CodeErrorInSchema(Schema):
-    message: str = Field(..., description="A message.py describing this error.")
+    title: str = Field(..., description="A short title describing this error.")
+    description: str = Field(
+        ..., description="A more in depth piece of text describing this error."
+    )
     old_code_link: HttpUrl = Field(..., description="A link to the original code.")
     fixed_code_link: HttpUrl = Field(..., description="A link to the fixed code.")
 
